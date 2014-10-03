@@ -1,4 +1,7 @@
 #include <Servo.h> 
+#include <avr/pgmspace.h>
+
+const byte PROGMEM charSet[]  = { 65, 32, 16, 10, 11};
 
 #define pinServo A0
 #define led13 13
@@ -15,6 +18,8 @@ void setup() {
   pinMode(moneda,INPUT_PULLUP);
   analogWrite(led13,30);
   Serial.begin(9600);
+  /////
+  Serial.println(pgm_read_byte_near(charSet+2));
 }
 
 void loop() {
@@ -42,8 +47,13 @@ void loop() {
 }
 
 void cambiaDisco(){
-  myservo.write(100);
-  delay(300);
-  myservo.write(101);
-  delay(300);
+  int i=0;
+  for (i=100;i<=180;i++){
+    myservo.write(i);
+    delay(20);
+  }
+  for (i=180;i<=100;i--){
+    myservo.write(i);
+    delay(20);
+  }
 }
