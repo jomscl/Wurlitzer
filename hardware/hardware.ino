@@ -1,25 +1,53 @@
 #include <Servo.h> 
 #include <avr/pgmspace.h>
 
-const byte PROGMEM charSet[]  = { 65, 32, 16, 10, 11};
+const byte PROGMEM datos[]  = { 65, 32, 16, 10, 11};
+#define posCambiaDisco 0;
 
-#define pinServo A0
-#define led13 13
-#define moneda 3
+#define pinServo0 A0
+#define pinServo1 A1
+#define moneda A2
+#define a0r 2
+#define a0g 3
+#define a0b 4
+#define a1r 5
+#define a1g 6
+#define a1b 7
+#define bl0 8
+#define bl1 9
+#define bl2 10
+#define bl3 11
 
-Servo myservo;
+Servo sDisco;
+Servo sAguja;
 
 bool estadoMoneda=false;
 
 void setup() {
-  // put your setup code here, to run once:
-  myservo.attach(pinServo);
-  pinMode(led13,OUTPUT);
+  sDisco.attach(pinServo0,1000,2000);
+  sAguja.attach(pinServo1,1000,2000);
+  
+  // posicion inicial servos
+  sDisco.write(0);
+  sAguja.write(0);
+  
+  // Leds
+  pinMode(a0r,OUTPUT);
+  pinMode(a0g,OUTPUT);
+  pinMode(a0b,OUTPUT);
+  pinMode(a1r,OUTPUT);
+  pinMode(a1g,OUTPUT);
+  pinMode(a1b,OUTPUT);
+  pinMode(bl0,OUTPUT);
+  pinMode(bl1,OUTPUT);
+  pinMode(bl2,OUTPUT);
+  pinMode(bl3,OUTPUT);
+    
+  // fotocelda
   pinMode(moneda,INPUT_PULLUP);
-  analogWrite(led13,30);
   Serial.begin(9600);
   /////
-  Serial.println(pgm_read_byte_near(charSet+2));
+  //Serial.println(pgm_read_byte_near(charSet+2));
 }
 
 void loop() {
@@ -29,7 +57,7 @@ void loop() {
       //Serial.println(msg);
       if (msg==255){cambiaDisco();}
     if (msg>13){  
-    if (msg>100){digitalWrite(led13,HIGH);}else{digitalWrite(led13,LOW);}
+    //if (msg>100){digitalWrite(led13,HIGH);}else{digitalWrite(led13,LOW);}
     }
   }
   
@@ -46,14 +74,3 @@ void loop() {
   }
 }
 
-void cambiaDisco(){
-  int i=0;
-  for (i=100;i<=180;i++){
-    myservo.write(i);
-    delay(20);
-  }
-  for (i=180;i<=100;i--){
-    myservo.write(i);
-    delay(20);
-  }
-}
