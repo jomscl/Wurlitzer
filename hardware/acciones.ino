@@ -22,9 +22,15 @@ void cambiaDisco(){
       case 64: // Sleep o delay
         delay(10*valor); break;
       case 96: // fin de rutina
-        seguir=false; break:
+        seguir=false; break;
       case 128: // volver a empezar
         pos=posCambiaDisco; break;
+      case 160: // Modo RGB1
+        break;
+      case 192: // Modo RGB2
+        break;
+      case 224: // Modo blanco
+        break;  
     }
     // ejecutar
     
