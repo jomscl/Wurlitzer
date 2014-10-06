@@ -24,8 +24,8 @@ Servo sAguja;
 bool estadoMoneda=false;
 
 void setup() {
-  sDisco.attach(pinServo0,1000,2000);
-  sAguja.attach(pinServo1,1000,2000);
+  sDisco.attach(pinServo0,660,2000); // de 0 a 130
+  sAguja.attach(pinServo1,660,2000); // 100 a 160 home
   
   // posicion inicial servos
   sDisco.write(0);
