@@ -13,6 +13,7 @@ boolean cambio = false;
 
 Serial myPort; 
 int inByte = -1;    // Incoming serial data
+int monedas=0;
 
 void setup()
 {
@@ -27,7 +28,7 @@ void setup()
 
   // puerto serial
   println(Serial.list());
-  String portName = Serial.list()[0];
+  String portName = Serial.list()[3];
   myPort = new Serial(this, portName, 9600); 
   
   reproduceChange();
@@ -38,16 +39,16 @@ void draw()
 {
   
   int bandas=30;
-  
+  int despl=100;
   // calculo de furier
   fft.forward( player.mix );
   
    // calculo de la fuerza para los LEDs
   int suma=0;
-  for (int p=0;p<bandas;p++){
+  for (int p=despl;p<bandas+despl;p++){
     suma+=fft.getBand(p);
   }
-  int fuerza=suma/bandas*10;
+  int fuerza=(suma/bandas*30)+25;
   
   // borrado de la pantalla
   background(fuerza*2,fuerza*4,fuerza*3);
@@ -64,17 +65,36 @@ void draw()
     myPort.write(fuerza);
   
   // revision de puerto serial
-  if (inByte=='m' && !cambio){
-    reproduceChange();
-    println("Moneda");  
+  if (inByte=='m'){
+    monedas++;
+    print("Moneda ");println(monedas);
+    inByte='k';
   }
+//  if (inByte=='m' && !cambio){
+//    reproduceChange();
+//    println("Moneda");
+//      
+//  }
   // continuar con la siguiente canción.
-  if (!player.isPlaying())
-  {
+//  if (!player.isPlaying())
+//  {
+//    if (!cambio){
+//      reproduceChange();
+//    }else{
+//      if (monedas>0){
+//        reproduceAzar();
+//        monedas--;
+//      }
+//    }
+//  }
+  if (!player.isPlaying()){
     if (!cambio){
-      reproduceChange();
+      if (monedas>0){
+        monedas--;
+        reproduceChange();
+      }
     }else{
-      reproduceAzar();
+       reproduceAzar();
     }
   }
 
