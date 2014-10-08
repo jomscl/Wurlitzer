@@ -23,7 +23,7 @@ Servo sAguja;
 
 #define homeAguja 160
 #define finAguja 100
-#define homeDisco 5
+#define homeDisco 10
 #define finDisco 130
 
 bool estadoMoneda=false;

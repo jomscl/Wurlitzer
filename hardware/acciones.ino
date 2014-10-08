@@ -43,33 +43,33 @@ void cambiaDisco(){
   //aguja home
   for (i=finAguja;i<=homeAguja;i++){
     sAguja.write(i);
-    delay(15);  
+    delayRgb(5);  
   }
-  delay(1000);
+  delayRgb(300);
   // Disco fin
   for (i=homeDisco;i<=finDisco;i++){
     sDisco.write(i);
-    delay(15);  
+    delayRgb(05);  
   }
   //pausa
-  delay (3000);
+  delayRgb (1000);
   
   // disco abajo
   for (i=finDisco;i>=homeDisco;i--){
     sDisco.write(i);
-    delay(15);  
+    delayRgb(5);  
   }
-  delay(1200);
+  delayRgb(400);
   // aguja fin
   for (i=homeAguja;i>finAguja;i--){
     sAguja.write(i);
-    delay(15);  
+    delayRgb(5);  
   }
 }
 
 void mueveRgb(){
   byte delta=1;
-  if (sonando){delta=30;}
+  if (sonando){delta=20;}
   if (secuenciaRgb0==0){// rojo++
     va0r+=delta;
     if (va0r>=255){
@@ -141,4 +141,14 @@ int nuevaSecuenciaRgb(int anterior){
 
 
  return salida; 
+}
+
+void delayRgb(int valor){
+  
+  for(int i=0;i<=valor;i++){
+    delay(1);
+    if (random(10)>=9){digitalWrite(bl2,!digitalRead(bl2));}
+    if (random(10)>=9){digitalWrite(bl3,!digitalRead(bl3));}
+    mueveRgb();
+  }
 }
